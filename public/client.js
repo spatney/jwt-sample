@@ -18,7 +18,8 @@ function start() {
 
     var data = new FormData();
     data.append("json", JSON.stringify(user));
-    window.fetch('/login', {
+
+    fetch('/login', {
         method: 'POST',
         body: data
     })

@@ -10,12 +10,16 @@ app.use(express.static('public'));
 
 app.post('/login', function (req, res) {
     var profile = {
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'john@doe.com',
-        id: 123
+        name: 'John',
+        surname: 'Doe',
+        email: 'jd@contoso.com',
+        id: 1
     };
-    res.json({ token: jwt.sign(profile, SUPER_SECRET_KEY, { expiresIn: 60 * 5 }) });
+    res.json({
+        token: jwt.sign(profile, SUPER_SECRET_KEY, {
+            expiresIn: 60 * 5
+        })
+    });
 })
 
 io.use(socketioJwt.authorize({
@@ -25,6 +29,7 @@ io.use(socketioJwt.authorize({
 
 io.on('connection', function (socket) {
     console.log('hello! ', socket.decoded_token.email);
+
 })
 
 server.listen(9000, function () {
