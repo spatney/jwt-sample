@@ -13,6 +13,7 @@ function connect_socket(token) {
 }
 
 function start() {
+    document.getElementById('status').innerHTML = "sigining in ... "
     var user = {
         email: 'spatney@microsoft.com',
         password: 'pass'
