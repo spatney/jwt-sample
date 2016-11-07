@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "documentdb": "^1.10.0",
     "express": "^4.14.0",
     "jsonwebtoken": "^7.1.9",
     "socket.io": "^1.5.1",

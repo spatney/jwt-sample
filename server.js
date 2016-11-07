@@ -7,8 +7,14 @@ var jwt = require('jsonwebtoken');
 var SUPER_SECRET_KEY = "TEAVANA";
 
 app.use(express.static('public'));
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 app.post('/login', function (req, res) {
+    console.log(req.json);
     var profile = {
         name: 'John',
         surname: 'Doe',
