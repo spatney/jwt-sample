@@ -18,12 +18,13 @@ function start() {
         password: 'pass'
     }
 
-    var data = new FormData();
-    data.append("json", JSON.stringify(user));
-
     fetch('/login', {
         method: 'POST',
-        body: data
+        body: JSON.stringify(user),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
     })
         .then(function (res) { return res.json(); })
         .then(function (result) {
