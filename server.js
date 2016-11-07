@@ -5,6 +5,7 @@ var io = require("socket.io")(server);
 var socketioJwt = require("socketio-jwt");
 var jwt = require('jsonwebtoken');
 var SUPER_SECRET_KEY = "TEAVANA";
+var port = process.env.port || 1337
 
 app.use(express.static('public'));
 app.use(function (req, res, next) {
@@ -38,8 +39,11 @@ io.on('connection', function (socket) {
 
 })
 
-server.listen(9000, function () {
-    console.log('listening on http://localhost:9000');
+server.listen(port, function () {    
+    var host = server.address().address;
+    var port = server.address().port;
+
+    console.log('Example app listening at http://%s:%s', host, port);
 });
 
 

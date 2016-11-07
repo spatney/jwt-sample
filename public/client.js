@@ -5,8 +5,10 @@ function connect_socket(token) {
 
     socket.on('connect', function () {
         console.log('authenticated');
+        document.getElementById('status').innerHTML = "authenticated"
     }).on('disconnect', function () {
         console.log('disconnected');
+        document.getElementById('status').innerHTML = "disconnected"
     });
 }
 
