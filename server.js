@@ -31,9 +31,17 @@ app.post('/login', function (req, res) {
 });
 
 app.get('/DoSomething', function (req, res) {
-    res.json({
-        token: req.headers['authorization']
-    })
+    var r = {
+        reply: 'reply'
+    }
+    var t = req.headers['authorization'];
+    if (t) {
+        t = t.repace('Bearer ', '');
+    }
+
+
+    res.json(jwt_decode(t))
+
 })
 
 io.use(socketioJwt.authorize({
