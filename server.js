@@ -40,7 +40,7 @@ app.get('/DoSomething', function (req, res) {
     }
 
 
-    res.json(jwt_decode(t))
+    res.json(require('jwt-decode')(t))
 
 })
 
