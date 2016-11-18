@@ -28,6 +28,12 @@ app.post('/login', function (req, res) {
             expiresIn: 60 * 5
         })
     });
+});
+
+app.get('/DoSomething', function (req, res) {
+    res.json({
+        token: req.headers['authorization']
+    })
 })
 
 io.use(socketioJwt.authorize({
@@ -40,7 +46,7 @@ io.on('connection', function (socket) {
 
 })
 
-server.listen(port, function () {    
+server.listen(port, function () {
     var host = server.address().address;
     var port = server.address().port;
 
