@@ -36,7 +36,7 @@ app.get('/DoSomething', function (req, res) {
     }
     var t = req.headers['authorization'];
     if (t) {
-        t = t.repace('Bearer ', '');
+        t = t.replace('Bearer ', '');
     }
 
 

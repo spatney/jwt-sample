@@ -1,4 +1,7 @@
+var tok;
+
 function connect_socket(token) {
+    tok = token;
     var socket = io.connect('', {
         query: 'token=' + token
     });
@@ -6,6 +9,15 @@ function connect_socket(token) {
     socket.on('connect', function () {
         console.log('authenticated');
         document.getElementById('status').innerHTML = "authenticated"
+
+        fetch('/DoSomething', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + tok
+            },
+        })
     }).on('disconnect', function () {
         console.log('disconnected');
         document.getElementById('status').innerHTML = "disconnected"
