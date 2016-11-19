@@ -42,7 +42,7 @@ app.get('/DoSomething', function (req, res) {
     console.log('token  -> ', t);
     console.log('secret -> ', process.env.SECRET)
 
-    var decoded = jwt.verify(t, process.env.SECRET);
+    var decoded = jwt.verify(t, Buffer.from(process.env.SECRET), 'base64');
     console.log('verify -> ', decoded);
     res.json(require('jwt-decode')(t))
 })
