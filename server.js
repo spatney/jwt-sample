@@ -42,12 +42,13 @@ app.get('/DoSomething', function (req, res) {
     console.log('token  -> ', t);
     console.log('secret -> ', process.env.SECRET)
 
-    jwt.verify(token, process.env.SECRET, function (err, decoded) {
-        console.log(decoded)
+    jwt.verify(t, process.env.SECRET, function (err, decoded) {
+        console.log('decoded', decoded)
+
+
+        res.json(require('jwt-decode')(t))
     });
 
-
-    res.json(require('jwt-decode')(t))
 
 })
 
