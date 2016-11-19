@@ -53,7 +53,7 @@ app.get('/DoSomething', function (req, res) {
     }
     var t = req.headers['authorization'];
     if (t) {
-        t = t.replace('Bearer ', '');
+        t = t.split(' ')[1];
     }
 
     console.log('token  -> ', t);
