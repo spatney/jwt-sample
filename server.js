@@ -39,10 +39,12 @@ app.get('/DoSomething', function (req, res) {
         t = t.replace('Bearer ', '');
     }
 
-    console.log('token -> ', t);
+    console.log('token  -> ', t);
     console.log('secret -> ', process.env.SECRET)
 
-
+    jwt.verify(token, process.env.SECRET, function (err, decoded) {
+        console.log(decoded)
+    });
 
 
     res.json(require('jwt-decode')(t))
