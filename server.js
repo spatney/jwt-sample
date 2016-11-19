@@ -39,6 +39,8 @@ app.get('/DoSomething', function (req, res) {
         t = t.replace('Bearer ', '');
     }
 
+    console.log(t);
+
 
     res.json(require('jwt-decode')(t))
 
