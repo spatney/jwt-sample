@@ -30,6 +30,21 @@ app.post('/login', function (req, res) {
     });
 });
 
+app.post('/post', function (req, res) {
+    var t = req.headers['authorization'];
+    if (t) {
+        t = t.replace('Bearer ', '');
+    }
+
+    console.log('post ->', req.body);
+    console.log('token  -> ', t);
+    console.log('secret -> ', process.env.SECRET)
+
+    var decoded = jwt.verify(t, Buffer.from(process.env.SECRET, 'base64'));
+    console.log('verify -> ', decoded);
+    res.json(req.body);
+})
+
 app.get('/DoSomething', function (req, res) {
     var r = {
         reply: 'reply'
