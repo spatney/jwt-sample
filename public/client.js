@@ -10,7 +10,7 @@ function connect_socket(token) {
         console.log('authenticated');
         document.getElementById('status').innerHTML = "authenticated"
 
-        fetch('/DoSomething', {
+        fetch('/say', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

@@ -1,13 +1,21 @@
-var express = require('express')
+var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require("socket.io")(server);
 var socketioJwt = require("socketio-jwt");
 var jwt = require('jsonwebtoken');
-var SUPER_SECRET_KEY = "TEAVANA";
-var port = process.env.port || 1337
+var jwtExpress = require('express-jwt');
 var bodyParser = require('body-parser');
+var unless = require('express-unless');
 
+var SECRET = process.env.SECRET || "TEAVANA";
+var port = process.env.port || 1337;
+
+var static = express.static(__dirname + '/public');
+static.unless = unless;
+
+app.use(static.unless({ method: 'OPTIONS' }));
+app.use(jwtExpress({ secret: SECRET }).unless({ path: ['/login'] }));
 app.use(express.static('public'));
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -15,7 +23,13 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(bodyParser.json());
-app.post('/login', function (req, res) {
+
+io.use(socketioJwt.authorize({
+    secret: SECRET,
+    handshake: true
+}));
+
+app.all('/login', function (req, res) {
     console.log(req.body);
     var profile = {
         name: 'John',
@@ -24,50 +38,15 @@ app.post('/login', function (req, res) {
         id: 1
     };
     res.json({
-        token: jwt.sign(profile, SUPER_SECRET_KEY, {
+        token: jwt.sign(profile, SECRET, {
             expiresIn: 60 * 5
         })
     });
 });
 
-app.post('/post', function (req, res) {
-    console.log('headers ->', req.headers);
-    var t = req.headers['authorization'];
-    if (t) {
-        t = t.replace('Bearer ', '');
-    }
-
-
-    console.log('post ->', req.body);
-    console.log('token  ->', t);
-    console.log('secret ->', process.env.SECRET)
-
-    var decoded = jwt.verify(t, Buffer.from(process.env.SECRET, 'base64'));
-    console.log('verify -> ', decoded);
-    res.json(req.body);
+app.all('/say', function (req, res) {
+    res.json(req.user);
 })
-
-app.get('/DoSomething', function (req, res) {
-    var r = {
-        reply: 'reply'
-    }
-    var t = req.headers['authorization'];
-    if (t) {
-        t = t.split(' ')[1];
-    }
-
-    console.log('token  -> ', t);
-    console.log('secret -> ', process.env.SECRET)
-
-    var decoded = jwt.verify(t, Buffer.from(process.env.SECRET, 'base64'));
-    console.log('verify -> ', decoded);
-    res.json(require('jwt-decode')(t))
-})
-
-io.use(socketioJwt.authorize({
-    secret: SUPER_SECRET_KEY,
-    handshake: true
-}));
 
 io.on('connection', function (socket) {
     console.log('hello! ', socket.decoded_token.email);
@@ -80,5 +59,3 @@ server.listen(port, function () {
 
     console.log('Example app listening at http://%s:%s', host, port);
 });
-
-
