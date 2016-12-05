@@ -50,7 +50,6 @@ app.all('/say', function (req, res) {
 
 io.on('connection', function (socket) {
     console.log('hello! ', socket.decoded_token.email);
-
 })
 
 server.listen(port, function () {
