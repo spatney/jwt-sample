@@ -1,6 +1,4 @@
- var DocumentDBClient = require('documentdb').DocumentClient;
-
- var DocDBUtils = {
+var DocDBUtils = {
      getOrCreateDatabase: function (client, databaseId, callback) {
          var querySpec = {
              query: 'SELECT * FROM root r WHERE r.id= @id',
